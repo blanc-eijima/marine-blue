@@ -1,0 +1,52 @@
+name: Build Check (Production)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build for production
+      run: npm run build
+      env:
+        NODE_ENV: production
+        
+    - name: Check build output
+      run: |
+        echo "🔍 ビルド結果を確認中..."
+        ls -la dist/
+        echo "📦 ビルドファイル数: $(find dist -type f | wc -l)"
+        echo "💾 合計サイズ: $(du -sh dist)"
+        
+    - name: Upload build artifacts  
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-build
+        path: dist/
+        retention-days: 7
+        
+    - name: Build Status
+      run: |
+        echo "## ✅ 本番ビルド成功" >> $GITHUB_STEP_SUMMARY
+        echo "- Node.js 18でビルド完了" >> $GITHUB_STEP_SUMMARY
+        echo "- 最適化済みファイルを生成" >> $GITHUB_STEP_SUMMARY
+        echo "- GitHub Pages設定完了後、自動デプロイが開始されます" >> $GITHUB_STEP_SUMMARY
+
+permissions:
+  contents: read
+  actions: write

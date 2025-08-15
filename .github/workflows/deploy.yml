@@ -1,8 +1,9 @@
 name: Deploy Production Environment
 
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:  # 手動実行のみに変更
+  # push:
+  #   branches: [ main ]  # GitHub Pages設定完了まで一時的に無効化
 
 jobs:
   build-and-deploy-production:
