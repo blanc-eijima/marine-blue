@@ -69,22 +69,62 @@ npm run dev
 
 ## 📝 利用可能なスクリプト
 
-- `npm run dev` - 開発サーバーを起動（ホットリロード対応）
+### 本番環境用
+- `npm run dev` - 開発サーバーを起動（本番設定）
 - `npm run build` - 本番用にビルド
 - `npm run preview` - ビルドしたファイルをプレビュー
 
-## 🌐 デプロイ
+### 開発環境用（develop）
+- `npm run dev:develop` - 開発サーバーを起動（開発設定、HMR有効）
+- `npm run build:develop` - 開発用にビルド（ソースマップ付き、最小化なし）
+- `npm run preview:develop` - 開発ビルドをプレビュー
 
-このプロジェクトは以下のプラットフォームでデプロイできます：
+## 🌐 デプロイ環境
 
-- **GitHub Pages**: 無料でホスティング
-- **Vercel**: 高速で簡単なデプロイ
-- **Netlify**: 継続的デプロイメントサポート
+このプロジェクトは2つの環境が設定されています：
 
-### GitHub Pagesでのデプロイ
+### 本番環境（Production）
+- **ブランチ**: `main`
+- **URL**: `https://blanc-eijima.github.io/marine-blue/`
+- **デプロイ**: `main`ブランチへのプッシュで自動デプロイ
+- **設定**: 最小化あり、ソースマップなし
 
-1. GitHub Actionsを使用した自動デプロイが設定されています
-2. `main`ブランチへのプッシュで自動的にデプロイされます
+### 開発環境（Develop）
+- **ブランチ**: `develop`
+- **URL**: `https://blanc-eijima.github.io/marine-blue/` (develop環境用設定)
+- **デプロイ**: `develop`ブランチへのプッシュで自動デプロイ
+- **設定**: 最小化なし、ソースマップあり、デバッグ情報付き
+
+## 🔄 開発ワークフロー
+
+### 新機能開発の流れ
+1. `develop`ブランチから新しいfeatureブランチを作成
+2. 機能開発・テスト
+3. `develop`ブランチにマージ
+4. develop環境で動作確認
+5. 本番リリース時に`main`ブランチにマージ
+
+```bash
+# 新機能開発開始
+git checkout develop
+git pull origin develop
+git checkout -b feature/新機能名
+
+# 開発・コミット
+git add .
+git commit -m "新機能を追加"
+git push origin feature/新機能名
+
+# developブランチにマージ
+git checkout develop
+git merge feature/新機能名
+git push origin develop
+
+# 本番リリース（develop → main）
+git checkout main
+git merge develop
+git push origin main
+```
 
 ## 🔧 開発時の注意事項
 
