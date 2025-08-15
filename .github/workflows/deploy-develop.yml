@@ -1,13 +1,13 @@
-name: Deploy Production Environment
+name: Deploy Develop Environment
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
 
 jobs:
-  build-and-deploy-production:
+  build-and-deploy-develop:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,23 +23,26 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Build for production
-      run: npm run build
+    - name: Build for develop
+      run: npm run build:develop
       env:
-        NODE_ENV: production
-      
-    - name: Setup Pages
+        NODE_ENV: development
+        
+    - name: Setup Pages (Develop)
       uses: actions/configure-pages@v4
       
-    - name: Upload artifact
+    - name: Upload artifact (Develop)
       uses: actions/upload-pages-artifact@v3
       with:
         path: './dist'
+        name: develop-artifact
         
-    - name: Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages (Develop)
       id: deployment
       uses: actions/deploy-pages@v4
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/develop'
+      with:
+        artifact-name: develop-artifact
 
 # GitHub Pagesのデプロイに必要な権限設定
 permissions:
@@ -47,7 +50,7 @@ permissions:
   pages: write
   id-token: write
 
-# 同時実行の制御（本番環境用）
+# 同時実行の制御（develop環境用）
 concurrency:
-  group: "pages-production"
-  cancel-in-progress: false
+  group: "pages-develop"
+  cancel-in-progress: true

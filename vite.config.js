@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// GitHub Pages用の設定を含むVite configuration
+// Production環境用のVite configuration
 export default defineConfig({
   plugins: [react()],
   base: '/marine-blue/', // GitHub Pagesのリポジトリ名に合わせて設定
@@ -14,6 +14,12 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    minify: true, // 本番環境では最小化を有効化
+    sourcemap: false // 本番環境ではソースマップを無効化
+  },
+  define: {
+    __DEV__: false,
+    __PROD__: true
   }
 })

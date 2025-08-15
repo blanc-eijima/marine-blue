@@ -4,8 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:develop": "vite --host --config vite.config.develop.js",
     "build": "vite build",
-    "preview": "vite preview"
+    "build:develop": "vite build --config vite.config.develop.js",
+    "preview": "vite preview",
+    "preview:develop": "vite preview --config vite.config.develop.js"
   },
   "dependencies": {
     "react": "^18.2.0",
