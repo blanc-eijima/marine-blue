@@ -1,4 +1,4 @@
-name: Deploy Develop Environment
+name: Build Develop Environment
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build-and-deploy-develop:
+  build-develop:
     runs-on: ubuntu-latest
     
     steps:
@@ -28,29 +28,28 @@ jobs:
       env:
         NODE_ENV: development
         
-    - name: Setup Pages (Develop)
-      uses: actions/configure-pages@v4
-      
-    - name: Upload artifact (Develop)
-      uses: actions/upload-pages-artifact@v3
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
       with:
-        path: './dist'
-        name: develop-artifact
+        name: develop-build
+        path: dist/
+        retention-days: 30
         
-    - name: Deploy to GitHub Pages (Develop)
-      id: deployment
-      uses: actions/deploy-pages@v4
-      if: github.ref == 'refs/heads/develop'
-      with:
-        artifact-name: develop-artifact
+    - name: Run tests (if any)
+      run: echo "Tests would run here"
+      
+    - name: Build success notification
+      run: |
+        echo "✅ Develop環境のビルドが完了しました"
+        echo "📁 アーティファクトがアップロードされました"
+        echo "🔗 本番環境へのマージ準備ができています"
 
-# GitHub Pagesのデプロイに必要な権限設定
+# 権限設定
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  actions: write
 
-# 同時実行の制御（develop環境用）
+# 同時実行の制御
 concurrency:
-  group: "pages-develop"
+  group: develop-build-${{ github.ref }}
   cancel-in-progress: true
