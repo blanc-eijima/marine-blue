@@ -1,0 +1,5 @@
+[33m3fedc92[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m README.mdを更新 - 新しい環境構成を反映
+[33mbce04a5[m GitHub Actionsワークフローのエラーを修正 - develop環境をビルドのみに変更、PRチェック追加
+[33m826d9ac[m README.mdにdevelop環境の説明とワークフローを追加
+[33ma49c69d[m develop環境の設定を追加 - ワークフロー、Vite設定、スクリプト
+[33m8e0c81b[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m GitHub Pages デプロイ設定を追加

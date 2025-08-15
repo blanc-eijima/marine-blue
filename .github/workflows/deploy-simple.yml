@@ -1,0 +1,35 @@
+name: Simple Deploy Test
+
+on:
+  workflow_dispatch:  # 手動実行用
+
+jobs:
+  build-only:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build for production
+      run: npm run build
+      env:
+        NODE_ENV: production
+        
+    - name: List build files
+      run: ls -la dist/
+      
+    - name: Build success
+      run: echo "✅ ビルドが成功しました！"
+
+permissions:
+  contents: read
